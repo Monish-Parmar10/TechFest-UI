@@ -10,9 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================
-           1. CORE VARIABLES & RESET
-           ========================================= */
+       
         :root {
             --bg-dark: #050511;
             --bg-darker: #02020a;
@@ -51,7 +49,6 @@
             background-attachment: fixed;
         }
 
-        /* Desktop Cursor Glow Effect */
         @media (hover: hover) and (pointer: fine) {
             .cursor-glow {
                 width: 400px; height: 400px;
@@ -64,13 +61,12 @@
             }
         }
 
-        /* Utility: Fluid Typography */
         h1 { 
             font-size: clamp(3rem, 8vw, 6rem); 
             line-height: 1; font-weight: 900; letter-spacing: -1px;
         }
         
-        /* Animated Gradient Text */
+      
         .gradient-text {
             background: linear-gradient(-45deg, var(--primary), var(--secondary), var(--tertiary), var(--primary));
             background-size: 300%;
@@ -98,7 +94,7 @@
         .container { width: 90%; max-width: 1200px; margin: 0 auto; }
         section { padding: 6rem 0; position: relative; }
 
-        /* "Award-Winning" Button - FIXED (Removed the white slider) */
+    
         .btn {
             padding: 14px 40px;
             background: linear-gradient(90deg, var(--secondary), var(--primary));
@@ -108,7 +104,7 @@
             transition: all 0.4s var(--ease-elastic);
             box-shadow: 0 4px 15px rgba(189, 0, 255, 0.3);
         }
-        /* The ::before pseudo-element that caused the slider has been removed */
+   
 
         .btn:hover {
             /* Keeping the elastic scale and enhanced glow */
@@ -116,9 +112,7 @@
             box-shadow: 0 8px 25px rgba(0, 242, 255, 0.6);
         }
 
-        /* =========================================
-           2. NAVIGATION (Glass + Blur)
-           ========================================= */
+    
         .navbar {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             padding: 1rem 0;
@@ -145,15 +139,13 @@
         .nav-links a:hover::after { width: 100%; }
         .hamburger { display: none; cursor: pointer; }
         
-        /* =========================================
-           3. HERO SECTION (Immersive)
-           ========================================= */
+    
         .hero {
             height: 100vh; min-height: 700px;
             display: flex; align-items: center; justify-content: center;
             text-align: center; position: relative; overflow: hidden;
         }
-        /* Dynamic 3D Grid Overlay */
+      
         .hero-grid {
             position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
             background-image: 
@@ -174,9 +166,7 @@
             margin-bottom: 2rem; letter-spacing: 2px;
         }
 
-        /* =========================================
-           4. CARDS WITH "HYPER-BORDERS"
-           ========================================= */
+     
         .grid-layout {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -195,7 +185,7 @@
             z-index: 1;
         }
 
-        /* The Animated Gradient Border Trick */
+     
         .tech-card::before {
             content: ''; position: absolute; z-index: -1;
             top: -2px; left: -2px; right: -2px; bottom: -2px;
@@ -209,9 +199,9 @@
             transform: translateY(-15px) scale(1.02);
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
-        /* Reveal border on hover */
+
         .tech-card:hover::before { opacity: 1; }
-        /* Add a dark layer inside so the text is readable over the gradient border */
+     
         .tech-card::after {
             content: ''; position: absolute; z-index: -1;
             top: 1px; left: 1px; right: 1px; bottom: 1px;
@@ -220,9 +210,7 @@
         
         .card-icon { font-size: 3.5rem; margin-bottom: 1.5rem; display: inline-block; }
 
-        /* =========================================
-           5. TIMELINE (ZIG-ZAG)
-           ========================================= */
+      
         .timeline { position: relative; max-width: 900px; margin: 5rem auto 0; }
         .timeline::before {
             content: ''; position: absolute; width: 3px;
@@ -231,7 +219,7 @@
         }
         .timeline-item {
             padding: 20px 50px; position: relative; width: 50%;
-            /* Ensure cards don't overlap center line */
+         
             box-sizing: border-box;
         }
         .timeline-content {
@@ -241,7 +229,7 @@
         }
         .timeline-item:hover .timeline-content { transform: scale(1.05); border-color: var(--primary); }
         
-        /* Timeline dots */
+       
         .timeline-item::after {
             content: ''; position: absolute; width: 20px; height: 20px;
             background: var(--bg-dark); border: 3px solid var(--primary);
@@ -254,9 +242,7 @@
         .right::after { left: -11.5px; }
         .time-badge { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
 
-        /* =========================================
-           6. FORM & FAQ
-           ========================================= */
+     
         .form-box {
             background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur));
             border: 1px solid var(--glass-border); padding: 3rem;
@@ -283,24 +269,20 @@
         .accordion-content { max-height: 0; overflow: hidden; padding: 0 1.5rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); color: var(--text-muted); }
         .accordion-item.active .accordion-content { padding-bottom: 1.5rem; max-height: 200px; }
 
-        /* =========================================
-           7. STAGGERED ANIMATIONS (The Wow Factor)
-           ========================================= */
-        /* Base reveal state */
+       
+    
         .reveal-up { opacity: 0; transform: translateY(50px); transition: all 0.8s var(--ease-elastic); }
-        /* Active state */
+       
         .reveal-up.active { opacity: 1; transform: translateY(0); }
         
-        /* Stagger Delays for children items */
+       
         .stagger-1 { transition-delay: 0.1s; }
         .stagger-2 { transition-delay: 0.2s; }
         .stagger-3 { transition-delay: 0.3s; }
         .stagger-4 { transition-delay: 0.4s; }
         .stagger-5 { transition-delay: 0.5s; }
 
-        /* =========================================
-           8. RESPONSIVE MEDIA QUERIES
-           ========================================= */
+    
         @media (max-width: 768px) {
             .hamburger { display: flex; flex-direction: column; gap: 6px; z-index: 1001;}
             .hamburger span { width: 30px; height: 3px; background: white; transition: 0.3s; }
@@ -505,7 +487,7 @@
     </footer>
 
     <script>
-        // 1. Desktop Cursor Follower
+        
         const cursor = document.querySelector('.cursor-glow');
         let mouseX = 0, mouseY = 0;
         let cursorX = 0, cursorY = 0;
@@ -516,7 +498,6 @@
         });
 
         function animateCursor() {
-            // Smooth trailing effect using linear interpolation (lerp)
             let distX = mouseX - cursorX;
             let distY = mouseY - cursorY;
             cursorX = cursorX + (distX * 0.15);
@@ -526,14 +507,14 @@
         }
         animateCursor();
 
-        // 2. Mobile Menu
+       
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('nav-active');
             hamburger.classList.toggle('toggle');
         });
-        // Close menu when link clicked
+       
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('nav-active');
@@ -541,7 +522,7 @@
             });
         });
 
-        // 3. FAQ Accordion (Elastic Animation)
+       
         document.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', () => {
                 const item = header.parentElement;
@@ -549,7 +530,7 @@
             });
         });
 
-        // 4. Advanced Scroll Reveal API (Staggered)
+    
         const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -564,7 +545,6 @@
             observer.observe(el);
         });
 
-        // 5. Navbar Scroll Effect
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('.navbar');
             window.scrollY > 50 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
