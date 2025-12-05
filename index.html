@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tech Fest 2025 | The Future is Now</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. CORE VARIABLES & RESET
+           ========================================= */
+        :root {
+            --bg-dark: #050511;
+            --bg-darker: #02020a;
+            /* More vibrant neon palette */
+            --primary: #00f2ff; 
+            --secondary: #bd00ff;
+            --tertiary: #ff0055; 
+            --text-main: #ffffff;
+            --text-muted: #a3a3bd;
+            
+            /* Advanced Glassmorphism variables */
+            --glass-bg: rgba(20, 20, 40, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: 20px;
+            
+            /* Elastic Bezier for snappy animations */
+            --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            scrollbar-width: thin; scrollbar-color: var(--secondary) var(--bg-darker);
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            /* Subtle ambient background mesh */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(189, 0, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.05) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        /* Desktop Cursor Glow Effect */
+        @media (hover: hover) and (pointer: fine) {
+            .cursor-glow {
+                width: 400px; height: 400px;
+                background: radial-gradient(circle, rgba(0, 242, 255, 0.15), transparent 70%);
+                position: fixed; top: -200px; left: -200px;
+                pointer-events: none; z-index: 9999;
+                border-radius: 50%; mix-blend-mode: screen;
+                transition: transform 0.1s ease-out;
+                will-change: transform;
+            }
+        }
+
+        /* Utility: Fluid Typography */
+        h1 { 
+            font-size: clamp(3rem, 8vw, 6rem); 
+            line-height: 1; font-weight: 900; letter-spacing: -1px;
+        }
+        
+        /* Animated Gradient Text */
+        .gradient-text {
+            background: linear-gradient(-45deg, var(--primary), var(--secondary), var(--tertiary), var(--primary));
+            background-size: 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientAnim 5s ease infinite;
+        }
+
+        @keyframes gradientAnim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h2 { 
+            font-size: clamp(2rem, 4vw, 3rem); 
+            margin-bottom: 3rem; position: relative; display: inline-block;
+        }
+        h2::after {
+            content: ''; position: absolute; left: 0; bottom: -10px;
+            width: 60px; height: 4px; background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        section { padding: 6rem 0; position: relative; }
+
+        /* "Award-Winning" Button - FIXED (Removed the white slider) */
+        .btn {
+            padding: 14px 40px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            color: white; border-radius: 50px; font-weight: 700;
+            border: none; cursor: pointer; position: relative;
+            text-transform: uppercase; letter-spacing: 1px;
+            transition: all 0.4s var(--ease-elastic);
+            box-shadow: 0 4px 15px rgba(189, 0, 255, 0.3);
+        }
+        /* The ::before pseudo-element that caused the slider has been removed */
+
+        .btn:hover {
+            /* Keeping the elastic scale and enhanced glow */
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 242, 255, 0.6);
+        }
+
+        /* =========================================
+           2. NAVIGATION (Glass + Blur)
+           ========================================= */
+        .navbar {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 1rem 0;
+            background: rgba(5, 5, 17, 0.6);
+            backdrop-filter: blur(var(--glass-blur));
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled { padding: 0.7rem 0; background: rgba(5, 5, 17, 0.9); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.75rem; font-weight: 800; letter-spacing: 1px;}
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            position: relative; font-weight: 500; font-size: 0.9rem;
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0.8;
+            transition: 0.3s;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0%; height: 2px; background: var(--primary);
+            transition: width 0.3s var(--ease-elastic);
+        }
+        .nav-links a:hover { opacity: 1; color: var(--primary); }
+        .nav-links a:hover::after { width: 100%; }
+        .hamburger { display: none; cursor: pointer; }
+        
+        /* =========================================
+           3. HERO SECTION (Immersive)
+           ========================================= */
+        .hero {
+            height: 100vh; min-height: 700px;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; position: relative; overflow: hidden;
+        }
+        /* Dynamic 3D Grid Overlay */
+        .hero-grid {
+            position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
+            background-image: 
+                linear-gradient(rgba(0, 242, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(189, 0, 255, 0.1) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: gridMove 15s linear infinite;
+            opacity: 0.6;
+        }
+        @keyframes gridMove { 100% { transform: perspective(500px) rotateX(60deg) translateY(60px); } }
+        
+        .hero-content { position: relative; z-index: 2; max-width: 800px; }
+        .date-pill {
+            display: inline-block; padding: 8px 24px;
+            background: rgba(0, 242, 255, 0.1); border: 1px solid var(--primary);
+            border-radius: 30px; color: var(--primary); font-weight: 600;
+            margin-bottom: 2rem; letter-spacing: 2px;
+        }
+
+        /* =========================================
+           4. CARDS WITH "HYPER-BORDERS"
+           ========================================= */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .tech-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-elastic);
+            border: 1px solid var(--glass-border);
+            z-index: 1;
+        }
+
+        /* The Animated Gradient Border Trick */
+        .tech-card::before {
+            content: ''; position: absolute; z-index: -1;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 400%;
+            border-radius: 22px; opacity: 0; transition: opacity 0.4s;
+            animation: gradientAnim 3s linear infinite;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        /* Reveal border on hover */
+        .tech-card:hover::before { opacity: 1; }
+        /* Add a dark layer inside so the text is readable over the gradient border */
+        .tech-card::after {
+            content: ''; position: absolute; z-index: -1;
+            top: 1px; left: 1px; right: 1px; bottom: 1px;
+            background: var(--bg-dark); border-radius: 20px;
+        }
+        
+        .card-icon { font-size: 3.5rem; margin-bottom: 1.5rem; display: inline-block; }
+
+        /* =========================================
+           5. TIMELINE (ZIG-ZAG)
+           ========================================= */
+        .timeline { position: relative; max-width: 900px; margin: 5rem auto 0; }
+        .timeline::before {
+            content: ''; position: absolute; width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            top: 0; bottom: 0; left: 50%; transform: translateX(-50%);
+        }
+        .timeline-item {
+            padding: 20px 50px; position: relative; width: 50%;
+            /* Ensure cards don't overlap center line */
+            box-sizing: border-box;
+        }
+        .timeline-content {
+            background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur));
+            padding: 2rem; border-radius: 16px; border: 1px solid var(--glass-border);
+            transition: 0.3s var(--ease-elastic);
+        }
+        .timeline-item:hover .timeline-content { transform: scale(1.05); border-color: var(--primary); }
+        
+        /* Timeline dots */
+        .timeline-item::after {
+            content: ''; position: absolute; width: 20px; height: 20px;
+            background: var(--bg-dark); border: 3px solid var(--primary);
+            border-radius: 50%; top: 30px; z-index: 2;
+            box-shadow: 0 0 15px var(--primary);
+        }
+        .left { left: 0; text-align: right; }
+        .left::after { right: -11.5px; }
+        .right { left: 50%; }
+        .right::after { left: -11.5px; }
+        .time-badge { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
+
+        /* =========================================
+           6. FORM & FAQ
+           ========================================= */
+        .form-box {
+            background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border); padding: 3rem;
+            border-radius: 24px; max-width: 600px; margin: 0 auto;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+        input, select {
+            width: 100%; padding: 16px; margin-bottom: 1.5rem;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+            border-radius: 12px; color: white; outline: none; transition: 0.3s;
+        }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+
+        .accordion-item {
+            background: var(--glass-bg); margin-bottom: 1rem; border-radius: 12px;
+            border: 1px solid var(--glass-border); overflow: hidden; transition: 0.3s;
+        }
+        .accordion-header {
+            padding: 1.5rem; cursor: pointer; display: flex;
+            justify-content: space-between; font-weight: 600;
+        }
+        .accordion-icon { transition: 0.3s var(--ease-elastic); }
+        .accordion-item.active .accordion-icon { transform: rotate(45deg); color: var(--primary); }
+        .accordion-content { max-height: 0; overflow: hidden; padding: 0 1.5rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); color: var(--text-muted); }
+        .accordion-item.active .accordion-content { padding-bottom: 1.5rem; max-height: 200px; }
+
+        /* =========================================
+           7. STAGGERED ANIMATIONS (The Wow Factor)
+           ========================================= */
+        /* Base reveal state */
+        .reveal-up { opacity: 0; transform: translateY(50px); transition: all 0.8s var(--ease-elastic); }
+        /* Active state */
+        .reveal-up.active { opacity: 1; transform: translateY(0); }
+        
+        /* Stagger Delays for children items */
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+
+        /* =========================================
+           8. RESPONSIVE MEDIA QUERIES
+           ========================================= */
+        @media (max-width: 768px) {
+            .hamburger { display: flex; flex-direction: column; gap: 6px; z-index: 1001;}
+            .hamburger span { width: 30px; height: 3px; background: white; transition: 0.3s; }
+            .hamburger.toggle span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+            .hamburger.toggle span:nth-child(2) { opacity: 0; }
+            .hamburger.toggle span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+            .nav-links {
+                position: fixed; top: 0; right: 0; height: 100vh; width: 100%;
+                background: var(--bg-darker); flex-direction: column;
+                align-items: center; justify-content: center;
+                transform: translateX(100%); transition: 0.4s var(--ease-elastic);
+                backdrop-filter: blur(20px);
+            }
+            .nav-links.nav-active { transform: translateX(0%); }
+            .nav-links a { font-size: 1.5rem; opacity: 1; }
+
+            /* Timeline Mobile Fix */
+            .timeline::before { left: 20px; }
+            .timeline-item { width: 100%; padding-left: 50px; padding-right: 10px; margin-bottom: 20px;}
+            .timeline-item::after { left: 11px; }
+            .left { text-align: left; }
+            
+            .form-box { padding: 1.5rem; }
+            h1 { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-glow"></div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">TECHFEST<span style="color:var(--secondary)">.25</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#events">Domains</a></li>
+                <li><a href="#schedule">Timeline</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#register" class="btn" style="padding: 10px 25px; margin-left: 20px;">Register</a></li>
+            </ul>
+            <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-grid"></div>
+        <div class="container hero-content">
+            <div class="reveal-up">
+                <span class="date-pill">MAY 7TH, 2025 • SGSITS INDORE</span>
+            </div>
+            <h1 class="reveal-up stagger-1">WHERE <span class="gradient-text">INNOVATION</span><br>MEETS DESTINY.</h1>
+            <p class="reveal-up stagger-2" style="margin: 30px 0 40px; font-size: 1.2rem; color: var(--text-muted);">The largest student-led technology symposium in Central India. Are you ready to ascend?</p>
+            <div class="reveal-up stagger-3">
+                <a href="#register" class="btn">Secure Your Spot</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="container">
+            <div class="reveal-up"><h2>The Mission</h2></div>
+            <div class="grid-layout" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: center;">
+                <div class="reveal-up stagger-1">
+                    <p style="font-size: 1.1rem; margin-bottom: 20px;">Tech Fest 2025 is not just an event; it's a movement. We are bridging the gap between academic theory and industry-shattering innovation through high-octane competitions and workshops.</p>
+                    <p style="font-size: 1.1rem; color: var(--primary);">Theme: "NEO-GENESIS" — Architecting the Future with AI & Web3.</p>
+                </div>
+                <div class="grid-layout reveal-up stagger-2" style="gap: 20px;">
+                    <div class="tech-card" style="text-align: center; padding: 2rem;">
+                        <span style="font-size: 3rem; color: var(--primary); font-weight: 800;">₹5L+</span>
+                        <p>Prize Pool</p>
+                    </div>
+                    <div class="tech-card" style="text-align: center; padding: 2rem;">
+                        <span style="font-size: 3rem; color: var(--secondary); font-weight: 800;">50+</span>
+                        <p>Universities</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="events" style="background: linear-gradient(to bottom, var(--bg-dark), var(--bg-darker));">
+        <div class="container">
+            <h2 class="reveal-up">Event Domains</h2>
+            <div class="grid-layout">
+                <div class="tech-card reveal-up stagger-1">
+                    <span class="card-icon">💻</span>
+                    <h3>Grand Hackathon</h3>
+                    <p style="color: var(--text-muted); margin-top: 10px;">36-hour sleepless coding marathon solving real-world corporate challenges.</p>
+                </div>
+                <div class="tech-card reveal-up stagger-2">
+                    <span class="card-icon">🦾</span>
+                    <h3>Robo Wars</h3>
+                    <p style="color: var(--text-muted); margin-top: 10px;">Build combat bots and fight to the death in our reinforced steel arena.</p>
+                </div>
+                <div class="tech-card reveal-up stagger-3">
+                    <span class="card-icon">🌐</span>
+                    <h3>Full Stack Dev</h3>
+                    <p style="color: var(--text-muted); margin-top: 10px;">Showcase your UI/UX mastery and backend robustness in timed challenges.</p>
+                </div>
+                <div class="tech-card reveal-up stagger-4">
+                    <span class="card-icon">🎮</span>
+                    <h3>Esports Arena</h3>
+                    <p style="color: var(--text-muted); margin-top: 10px;">Valorant & FIFA tournaments on high-refresh rate battle stations.</p>
+                </div>
+                <div class="tech-card reveal-up stagger-5">
+                    <span class="card-icon">🚀</span>
+                    <h3>Ideathon Pitch</h3>
+                    <p style="color: var(--text-muted); margin-top: 10px;">Present your startup concept to VC investors and industry mentors.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="schedule">
+        <div class="container">
+            <h2 class="reveal-up" style="text-align: center;">The Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item left reveal-up stagger-1">
+                    <div class="timeline-content">
+                       <span class="time-badge">09:00 AM</span>
+                       <h3>Opening Ceremony</h3>
+                       <p>Keynote by Industry Titan at Golden Jubilee Hall.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right reveal-up stagger-2">
+                    <div class="timeline-content">
+                        <span class="time-badge">11:00 AM</span>
+                        <h3>Hackathon Begins</h3>
+                        <p>Problem statements released. The clock starts ticking.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left reveal-up stagger-3">
+                    <div class="timeline-content">
+                        <span class="time-badge">02:00 PM</span>
+                        <h3>Robo League Qualifiers</h3>
+                        <p>Initial rounds of bot battles in the central arena.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right reveal-up stagger-4">
+                    <div class="timeline-content">
+                        <span class="time-badge">08:00 PM</span>
+                        <h3>Cultural Night & DJ</h3>
+                        <p>Unwind with EDM night featuring top campus DJs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="register" style="background: linear-gradient(to bottom, var(--bg-darker), var(--bg-dark));">
+        <div class="container reveal-up">
+            <div class="form-box">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Initialize Registration</h2>
+                <form>
+                    <input type="text" placeholder="Full Name (e.g., Alex Chen)" required>
+                    <input type="email" placeholder="University Email ID" required>
+                    <input type="text" placeholder="College / Institution Name" required>
+                    <select required style="color: var(--text-muted)">
+                        <option value="" disabled selected>Select Primary Domain</option>
+                        <option>Grand Hackathon (Team of 4)</option>
+                        <option>Robo Wars</option>
+                        <option>Full Stack Dev</option>
+                        <option>Esports Arena</option>
+                    </select>
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Eject to Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="container">
+            <h2 class="reveal-up">System FAQs</h2>
+            <div class="reveal-up stagger-1">
+                <div class="accordion-item">
+                    <div class="accordion-header">Eligibility Criteria? <span class="accordion-icon">+</span></div>
+                    <div class="accordion-content"><p>Open to all college students with valid ID cards. Cross-college teams are allowed for Hackathons.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">Accommodation Provided? <span class="accordion-icon">+</span></div>
+                    <div class="accordion-content"><p>Yes, basic dormitory accommodation is provided for outstation participants registered for 24h+ events.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">Hardware Requirements? <span class="accordion-icon">+</span></div>
+                    <div class="accordion-content"><p>Bring your own laptops/chargers. High-speed Wi-Fi and power strips will be provided at every desk.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="background: var(--bg-darker); padding: 4rem 0; text-align: center; border-top: 1px solid var(--glass-border);">
+        <div class="container">
+            <div class="logo" style="margin-bottom: 1rem;">TECHFEST<span style="color:var(--secondary)">.25</span></div>
+            <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem;">
+                <a href="#" style="color: var(--text-muted); transition: 0.3s; hover: var(--primary)">INSTAGRAM</a>
+                <a href="#" style="color: var(--text-muted); transition: 0.3s; hover: var(--primary)">LINKEDIN</a>
+                <a href="#" style="color: var(--text-muted); transition: 0.3s; hover: var(--primary)">DISCORD</a>
+            </div>
+            <p style="color: var(--text-muted); opacity: 0.6; font-size: 0.9rem;">ENGINEERED FOR GLORY. © 2025 SGSITS.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Desktop Cursor Follower
+        const cursor = document.querySelector('.cursor-glow');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            // Smooth trailing effect using linear interpolation (lerp)
+            let distX = mouseX - cursorX;
+            let distY = mouseY - cursorY;
+            cursorX = cursorX + (distX * 0.15);
+            cursorY = cursorY + (distY * 0.15);
+            cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // 2. Mobile Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-active');
+            hamburger.classList.toggle('toggle');
+        });
+        // Close menu when link clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('nav-active');
+                hamburger.classList.remove('toggle');
+            });
+        });
+
+        // 3. FAQ Accordion (Elastic Animation)
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // 4. Advanced Scroll Reveal API (Staggered)
+        const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 5. Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.navbar');
+            window.scrollY > 50 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+        });
+    </script>
+</body>
+</html>
