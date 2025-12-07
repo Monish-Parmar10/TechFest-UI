@@ -61,8 +61,8 @@ Neon indicators
 Smooth transitions
 
 🖼 Screenshots
-
 Hero Section
+
 <img width="702" height="614" alt="image" src="https://github.com/user-attachments/assets/4026f192-04f7-43f6-b6ca-48e5ed131786" />
 
 Event Domains
